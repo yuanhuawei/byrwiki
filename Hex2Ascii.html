@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Ascii和十六进制（Hex）相互转换</title>
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //$(".btn1").click(function () {
+            //    $("p").slideToggle();
+            //});
+
+            $("#btn_Ascii2Hex").click(function () {
+
+                $("#result").val(hex2ascii($("#source").val()));
+            });
+
+            $("#btn_Hex2Ascii").click(function () {
+
+                $("#result").val(ascii_to_hexa($("#source").val()));
+            });
+
+            $("#btn_change").click(function () {
+                var strSource = $("#source").val();
+                var strResult = $("#result").val();
+
+                $("#source").val(strResult);
+
+                $("#result").val(strSource);
+            });
+        });
+
+
+
+        function hex2ascii(hex) {
+            if (!(typeof hex === 'number' || typeof hex == 'string')) {
+                return ''
+            }
+
+            hex = hex.toString().replace(/\s+/gi, '')
+            const stack = []
+
+            for (var i = 0; i < hex.length; i += 2) {
+                const code = parseInt(hex.substr(i, 2), 16)
+                if (!isNaN(code) && code !== 0) {
+                    stack.push(String.fromCharCode(code))
+                }
+            }
+
+            return stack.join('')
+        }
+
+
+        function ascii_to_hexa(str) {
+            var arr1 = [];
+            for (var n = 0, l = str.length; n < l; n++) {
+                var hex = Number(str.charCodeAt(n)).toString(16);
+                arr1.push(hex);
+            }
+            return arr1.join('');
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+    <form role="form">
+        <div class="form-group">
+            <label for="name">转换前</label>
+            <textarea type="text" class="form-control" id="source" rows="6"
+                      placeholder="请输入要转换的字符串"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="inputfile">转换后结果</label>
+            <textarea type="text" id="result" class="form-control" rows="6" placeholder="转换后结果"></textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="btn_Ascii2Hex">十六进制转ASCII</button>
+        &nbsp;
+        <button type="button" class="btn btn-primary" id="btn_Hex2Ascii">ASCII转十六进制</button>
+        &nbsp;
+        <button type="button" class="btn btn-primary" id="btn_change">内容互换</button>
+
+    </form>
+</body>
+</html>
